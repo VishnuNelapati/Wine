@@ -10,8 +10,6 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
-from pandas_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
 import warnings
 import joblib
 warnings.filterwarnings('ignore')
