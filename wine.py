@@ -207,7 +207,7 @@ if menubar == 'Exploratory Data Analysis':
             fig = ex.scatter_3d(wine1,x = f1,y = f2,z = f3,color = f4,opacity = 0.7,color_discrete_sequence = cds)
 
             fig.update_layout(
-            title=f'Scatter Matrix Plot - By {f4}',
+            title=f'3D Scatter Plot - By {f4}',
             dragmode='select',
             width=1000,
             height=600,
@@ -627,19 +627,62 @@ It is Statistical procedure to convert observations of possibly correlated varia
 
     ind = np.random.randint(10,len(X_test)-10)
     input = X_test.iloc[ind:ind+1,:]
+    # st.write(input)
+    #
+    # st.write(input.index[0])
 
-    st.write(input)
+    dis = inputdata1()[inputdata1().index == input.index[0]]
+    st.dataframe(dis[X_train.columns])
 
     # st.selectbox("Choose the model",['Logistic Regression','Decision Tree Classifier',
     # 'Random Forrest Classifier','XGBoost Classifier','Neural Network','Adaboost Classifier','Gradient Boost Classifier'])
 
-    st.button("Predict")
+    pred = st.button("Predict Type")
 
-    loaded_model = joblib.load('decisiontreeclassifier-Imbalance.pkl')
+    # loaded_model = joblib.load('decisiontreeclassifier-Imbalance.pkl')
+    # model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+    # si = 1 if model_output ==  np.array(dis.Type)[0] else -1
 
-    st.write("Red" if loaded_model.predict(input)==0 else 'White')
+    m1,m2,m3,m4,m5,m6,m7 = st.columns((1,1,1,1,1,1,1))
 
-    st.metric('Listed Price',10,20)
+    if pred:
+        with m1:
+            st.metric('Actual Value',np.array(dis.Type)[0],)
+        with m2:
+            loaded_model = joblib.load('logisticregression-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('Logistic Regression',model_output,si)
+        with m3:
+            loaded_model = joblib.load('decisiontreeclassifier-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('Decision Tree Classifier',model_output,si)
+        with m4:
+            loaded_model = joblib.load('randomforestclassifier-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('Random Forest Classifier',model_output,si)
+        with m5:
+            loaded_model = joblib.load('xgbclassifier-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('XGBoost Classifier',model_output,si)
+        with m6:
+            loaded_model = joblib.load('adaboostclassifier-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('AdBoost Regression',model_output,si)
+        with m7:
+            loaded_model = joblib.load('gradientboostingclassifier-Imbalance.pkl')
+            model_output = "Red" if loaded_model.predict(input)==0 else 'White'
+            si = 1 if model_output ==  np.array(dis.Type)[0] else -1
+            st.metric('Gradient Boost Classifier',model_output,si)
+
+    else:
+        st.metric('Actual Value',np.array(dis.Type)[0],)
+
+
 
 #==================================================================================================================================================
 #==========================================Classification MOdel - Quality ===========================================================================
@@ -1023,38 +1066,63 @@ Pipelines are valuable for cleaning up machine learning code and avoiding errors
             st.plotly_chart(fig,use_container_width=True)
     st.write("---")
 
+    # st.markdown("6308, 6075, 1236 , 1328 ")
 
+    st.markdown(" ## Models Evaluation")
 
+    ind = np.random.randint(10,len(X_test)-10)
+    input = X_test.iloc[ind:ind+1,:]
+    # st.write(input)
+    #
+    # st.write(input.index[0])
 
+    dis = inputdata1()[inputdata1().index == input.index[0]]
+    st.dataframe(dis[X_train.columns])
 
+    # st.selectbox("Choose the model",['Logistic Regression','Decision Tree Classifier',
+    # 'Random Forrest Classifier','XGBoost Classifier','Neural Network','Adaboost Classifier','Gradient Boost Classifier'])
 
+    pred = st.button("Predict Quality")
 
+    # loaded_model = joblib.load('decisiontreeclassifierQ-Imbalance.pkl')
+    # model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+    # si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
 
-if menubar == 'Playground':
+    m1,m2,m3,m4,m5,m6,m7 = st.columns((1,1,1,1,1,1,1))
 
-    st.markdown(" ## Model Building")
-
-    q1,q2 = st.columns((2,7))
-    compare = False
-    with q1:
-        compare = st.checkbox("Compare models")
-
-    if compare:
-
-        com1,com2,com3 = st.columns((1,0.1,1))
-
-        with com1:
-            model1 = st.selectbox("Model - 1",['Logistic Regression','Decision Tree Classifier',
-            'Random Forrest Classifier','XGBoost Classifier','Neural Network','Adaboost Classifier','Gradient Boost Classifier'],key = 'model1')
-
-
-        with com3:
-            if compare:
-                model2 = st.selectbox("Model - 2",list(set(['Logistic Regression','Decision Tree Classifier',
-                'Random Forrest Classifier','XGBoost Classifier','Neural Network','Adaboost Classifier','Gradient Boost Classifier'])- set([model1])),key = 'model2')
+    if pred:
+        with m1:
+            st.metric('Actual Value',np.array(dis.discrete_quality)[0],)
+        with m2:
+            loaded_model = joblib.load('logisticregressionQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('Logistic Regression',model_output,si)
+        with m3:
+            loaded_model = joblib.load('decisiontreeclassifierQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('Decision Tree Classifier',model_output,si)
+        with m4:
+            loaded_model = joblib.load('randomforestclassifierQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('Random Forest Classifier',model_output,si)
+        with m5:
+            loaded_model = joblib.load('xgbclassifierQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('XGBoost Classifier',model_output,si)
+        with m6:
+            loaded_model = joblib.load('adaboostclassifierQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('AdBoost Regression',model_output,si)
+        with m7:
+            loaded_model = joblib.load('gradientboostingclassifierQ-Imbalance.pkl')
+            model_output = "High" if loaded_model.predict(input)==0 else ("Low" if loaded_model.predict(input)==1 else 'Medium')
+            si = 1 if model_output ==  np.array(dis.discrete_quality)[0] else -1
+            st.metric('Gradient Boost Classifier',model_output,si)
 
     else:
-        com1,com2,com3 = st.columns((0.1,1,0.1))
-        with com2:
-            model1 = st.selectbox("Models",['Logistic Regression','Decision Tree Classifier',
-            'Random Forrest Classifier','XGBoost Classifier','Neural Network','Adaboost Classifier','Gradient Boost Classifier'],key = 'model1')
+        st.metric('Actual Value',np.array(dis.discrete_quality)[0],)
